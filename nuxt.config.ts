@@ -9,6 +9,8 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-
+  devServer:{
+    host:"0.0.0.0"
+  },
   modules: ["@nuxt/image"]
 })
