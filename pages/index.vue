@@ -1,72 +1,14 @@
 <template>
-  <div class="drawer">
-    <input id="my-drawer" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content flex flex-col h-full p-2">
-      <div class="flex justify-between items-center">
-        <div class="text-2xl">Lay Buys</div>
-        <label for="my-drawer">
-          <span class="material-icons drawer-button">menu</span>
-        </label>
-      </div>
-      <!-- Page content here -->
+  <div class="flex items-center ">
+    <div class="flex flex-col">
+      <div class="text-2xl font-semibold">Lay Buys</div>
+      <div class="text-sm font-thin">All your laybuys</div>
     </div>
-    <div class="drawer-side ">
-      <label
-        for="my-drawer"
-        aria-label="close sidebar"
-        class="drawer-overlay"
-      ></label>
-   
-      <ul
-        class="menu  w-2/3 min-h-full bg-base-200 text-base-content justify-center items-center "
-      >
-        <!-- Sidebar content here -->
-        <img
-        width="100"
-        class="rounded-full"
-        src="https://media.licdn.com/dms/image/C4D03AQGo606g1nklfA/profile-displayphoto-shrink_200_200/0/1580191988102?e=1714608000&v=beta&t=hkBOdQ03McRa5yrm_0mEWgVgxiAv8PKLxar1REPA8J0"
-      />
-        <li v-for="(item, key) in menuItems" class="w-full" :key="key">
-          <div class="flex justify-left w-full">
-            <span class="material-icons-outlined">{{ item.itemIcon }}</span>
-            <div>{{ item.itemName }}</div>
-          </div>
-          <div class="divider"></div>
-        </li>
-      </ul>
+    <div class=" fixed bottom-4 right-4">
+        <div class="bg-white shadow-md p-4 flex justify-center items-center rounded-full ">   
+            <span class="material-icons font-bold" style="font-size:2rem;">add</span>
+        </div>
+        
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-
-import type { Ref } from 'vue';
-type MenuItem = {
-  itemName: string;
-  itemIcon: string;
-};
-
-const menuItems: Ref<MenuItem[]> = ref([
-  {
-    itemName: 'LayBuys',
-    itemIcon: 'shopping_bag',
-  },
-  {
-    itemName: 'Profile',
-    itemIcon: 'person',
-  },
-  {
-    itemName: 'FAQ',
-    itemIcon: 'help',
-  },
-  {
-    itemName: 'Settings',
-    itemIcon: 'settings',
-  },
-  {
-    itemName: 'Privacy Policy',
-    itemIcon: 'policy',
-  },
-]);
-</script>
