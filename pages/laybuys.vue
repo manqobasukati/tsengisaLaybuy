@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col gap-2">
-    <div class="flex flex-col gap-2">
+  <div class="flex  flex-col gap-2">
+    <div class="flex  bg-white w-full flex-col gap-2 ">
       <div class="text-2xl font-semibold">Lay Buys</div>
       <div class="text-sm font-thin">All your laybuys</div>
       <div class="flex w-full gap-2">
@@ -14,7 +14,10 @@
         </div>
       </div>
     </div>
-    <LayBuyItem @openLayBuyItem="handleDialogEvents" />
+    <div class="flex flex-col gap-2 h-1/2 overflow-auto">
+      <LayBuyItem v-for="(item,key) in 9" :key="key" @openLayBuyItem="handleDialogEvents" />
+    </div>
+   
     <div class="fixed bottom-4 right-4">
       <div
         @click="handleDialogEvents('Create')"

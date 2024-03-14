@@ -32,6 +32,12 @@
           class="input input-bordered w-full"
         />
       </label>
+      <label class="form-control w-full ">
+        <div class="label">
+          <span class="label-text">Receipt </span>
+        </div>
+        <input type="file" class="file-input file-input-bordered w-full file-input-teal" />
+      </label>
       <div class="flex gap-2">
         <label class="form-control w-full ">
         <div class="label">

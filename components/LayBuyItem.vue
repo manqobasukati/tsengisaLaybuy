@@ -1,11 +1,11 @@
 <template>
-  <div class="bg-teal-700 w-full p-2 rounded-md flex flex-col">
+  <div class="bg-teal-600 w-full p-2 rounded-md flex flex-col">
     <div class="text-md text-white flex justify-between">
       <div class="flex flex-col">
         <div class="text-lg">Khakhi chino pants</div>
         <div class="text-md text-gray-300 font-thin">Edgars Stores</div>
       </div>
-      <div class="text-3xl font-thin">R300</div>
+      <div class="text-xl font-thin">R300 / R600.00</div>
     </div>
     <div class="divider"></div> 
     <div class="flex justify-between text-white">
