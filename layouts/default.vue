@@ -3,7 +3,7 @@
     <input id="my-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col h-full p-2">
       <div class="flex justify-end">
-        <label for="my-drawer">
+        <label v-if="showDrawer" for="my-drawer">
           <span class="material-icons drawer-button" style="font-size: 2.5rem;">menu</span>
         </label>
       </div>
@@ -11,7 +11,7 @@
 
       <!-- Page content here -->
     </div>
-    <div class="drawer-side">
+    <div class="drawer-side" >
       <label
         for="my-drawer"
         aria-label="close sidebar"
@@ -85,4 +85,12 @@ const menuItems: Ref<MenuItem[]> = ref([
     itemIcon: 'power_settings_new',
   },
 ]);
+
+const showDrawer = computed(()=>{
+  
+  return !['/sign-in','/sign-up'].includes(useRouter().currentRoute.value.path);
+})
+
+
+console.log(useRouter().currentRoute.value.path)
 </script>
