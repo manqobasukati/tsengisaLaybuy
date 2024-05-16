@@ -23,7 +23,7 @@
             class="input input-bordered w-full max-w-xs"
           />
         </label>
-        <button class="btn btn-wide bg-teal-700 text-white">Submit</button>
+        <button class="btn btn-wide w-full bg-teal-700 text-white">Submit</button>
       </div>
     </div>
   </template>
