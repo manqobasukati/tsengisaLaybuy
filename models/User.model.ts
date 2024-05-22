@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const UserZod = z.object({
   email: z.string().email(),
-  phoneNumber: z.number(),
+  phoneNumber: z.string(),
   userId: z.string().uuid(),
   password: z.string(),
   fullName: z.string(),
@@ -10,7 +10,7 @@ export const UserZod = z.object({
 
 export const UserSignUpZod = z.object({
   email: z.string().email({message:'Email entered is invalid'}),
-  phoneNumber: z.number().gte(8,{message:'Phone number must contain atleast 8 digits'}),
+  phoneNumber: z.string().min(8,{message:'Phone number must contain atleast 8 digits'}),
   password: z
     .string()
     .min(6, { message: 'Password must have atleast five characters' }),

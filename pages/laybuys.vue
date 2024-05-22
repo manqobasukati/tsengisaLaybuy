@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="flex flex-col gap-2 h-1/2 overflow-auto">
-      <LayBuyItem v-for="(item,key) in 9" :key="key" @openLayBuyItem="handleDialogEvents" />
+      <LayBuyItem v-for="(item,key) in  allLayBuys" :laybuy_item="item" :key="key" @openLayBuyItem="handleDialogEvents" />
     </div>
    
     <div class="fixed bottom-4 right-4">
@@ -53,6 +53,8 @@ import { onMounted, ref } from 'vue';
 import type { Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import LayBuyPayment from '../components/LayBuyPayment.vue';
+import type { LayBuyItem } from '~/models/LayBuyItem.model';
+import { getAllUserBuys } from '~/requesHandlers/laybuys';
 
 type LayBuyPageTab = {
   name: string;
@@ -76,7 +78,18 @@ function setActiveTab(tab: typeof activeTab.value) {
   activeTab.value = tab;
 }
 
+const allLayBuys:Ref<LayBuyItem[]|null> = ref(null);
+
+const loggedInUserId:Ref<string> = ref('804aca98-021d-483e-8ad5-3974a4189471')
+
 const router = useRouter();
+
+onMounted(async()=>{
+  getAllUserBuys(loggedInUserId.value).then((val)=>{
+    
+    allLayBuys.value = val;
+  })
+})
 const handleDialogEvents = (view: DialogViews) => {
   activeDialogView.value = view;
   console.log('open dialog', my_modal_5.value?.showModal());

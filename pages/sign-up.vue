@@ -19,7 +19,7 @@
           <span class="label-text text-xs font-bold">Phone number</span>
         </div>
         <input
-          type="number"
+          type="text"
           placeholder="Your phone number"
           v-model="user.phoneNumber"
           class="input input-bordered w-full max-w-xs"
@@ -58,15 +58,17 @@
         Submit
       </button>
     </div>
+
   </div>
 </template>
 
 <script setup lang="ts">
 import { ZodError } from 'zod';
 import { UserSignUpZod, type UserSignUp } from '~/models/User.model';
+import { createUser } from '../requesHandlers/users';
 
 const user: Ref<UserSignUp> = ref({
-  phoneNumber: 0,
+  phoneNumber: '',
   email: '',
   fullName: '',
   password: '',
@@ -83,5 +85,11 @@ const submitSignUp = () => {
     errors.value = error;
     console.log('Again');
   }
+
+  createUser(user.value).then((val) => {
+    console.log(val);
+  }).catch((e)=>{
+    console.log('Error',e)
+  })
 };
 </script>
