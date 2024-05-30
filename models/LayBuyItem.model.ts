@@ -1,4 +1,6 @@
 import { z } from 'zod';
+import { StoreZod } from '~/models/Store.model';
+
 
 
 export const LayBuyItemZod = z.object({
@@ -10,8 +12,10 @@ export const LayBuyItemZod = z.object({
     deposit_amount:z.number(),
     duration:z.number(),
     store_id:z.string().uuid(),
+    store:z.object({StoreZod}).optional(),
     user_id:z.string().uuid(),
 })
+
 
 export const LayBuyItemCreateZod = z.object({
     item_name:z.string(),
@@ -25,4 +29,4 @@ export const LayBuyItemCreateZod = z.object({
 
 
 export type LayBuyItem = z.infer<typeof LayBuyItemZod>;
-export type LayBuyItemCreate  = z.infer<typeof LayBuyItemCreateZod>
+export type LayBuyItemCreate  = z.infer<typeof LayBuyItemCreateZod>;

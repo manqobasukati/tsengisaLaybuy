@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-    <div class="flex flex-col gap-2 h-1/2 overflow-auto">
+    <div class="flex flex-col gap-2 h-full overflow-auto">
       <LayBuyItem v-for="(item,key) in  allLayBuys" :laybuy_item="item" :key="key" @openLayBuyItem="handleDialogEvents" />
     </div>
    
@@ -86,7 +86,6 @@ const router = useRouter();
 
 onMounted(async()=>{
   getAllUserBuys(loggedInUserId.value).then((val)=>{
-    
     allLayBuys.value = val;
   })
 })
