@@ -23,7 +23,7 @@ export const LayBuyItemCreateZod = z.object({
     prize:z.number(),
     duration:z.number(),
     deposit_amount:z.number(),
-    store_id:z.string().uuid(),
+    store_name:z.string().uuid(),
     user_id:z.string().uuid(),
 });
 

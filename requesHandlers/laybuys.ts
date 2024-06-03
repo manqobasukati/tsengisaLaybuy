@@ -1,6 +1,23 @@
-import type { LayBuyItem } from '~/models/LayBuyItem.model';
+import type { LayBuyItem, LayBuyItemCreate } from '~/models/LayBuyItem.model';
 import { supabase } from '~/superBaseClient';
 import type { Store } from '../models/Store.model';
+
+
+export async function createLayBuyItem(item:LayBuyItemCreate){
+     //
+    // const 
+    //TODO first create the store if it does not exist
+    const { data, error } = await supabase
+  .from('stores')
+  .select('*')
+  .eq('store_name',item.store_name)
+  .maybeSingle();
+
+  if(data){
+    console.log('Store already exists')
+  }
+
+}
 
 export async function getAllUserBuys(
   user_id: string
@@ -39,3 +56,5 @@ export async function getAllUserBuys(
 
   throw error;
 }
+
+
