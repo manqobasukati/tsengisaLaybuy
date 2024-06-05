@@ -112,11 +112,12 @@ const submitCreateLayBuyItem = (evt: Event) => {
 
 
 const handleFileChange = (evt:Event)=>{
-    const reader = new FileReader();
-    reader.readAsDataURL( (evt.target as any).files[0]);
-    reader.onload = ()=>{
-      laybuyItem.value.receipt =  reader.result as string;
-    }
+  laybuyItem.value.receipt = (evt.target as any).files[0] as any;
+    // const reader = new FileReader();
+    // reader.readAsDataURL( (evt.target as any).files[0]);
+    // reader.onload = ()=>{
+    //   laybuyItem.value.receipt =  reader.result as string;
+    // }
    
 }
 

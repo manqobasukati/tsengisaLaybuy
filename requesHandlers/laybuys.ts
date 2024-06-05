@@ -1,22 +1,53 @@
 import type { LayBuyItem, LayBuyItemCreate } from '~/models/LayBuyItem.model';
-import { supabase } from '~/superBaseClient';
+import { connectionUrl, supabase } from '~/superBaseClient';
 import type { Store } from '../models/Store.model';
 
+export async function createLayBuyItem(item: LayBuyItemCreate) {
+  //
+  // const
+  //TODO first create the store if it does not exist
+  const { data: store, error } = await supabase
+    .from('stores')
+    .select('*')
+    .eq('store_name', item.store_name)
+    .maybeSingle();
 
-export async function createLayBuyItem(item:LayBuyItemCreate){
-     //
-    // const 
-    //TODO first create the store if it does not exist
-    const { data, error } = await supabase
-  .from('stores')
-  .select('*')
-  .eq('store_name',item.store_name)
-  .maybeSingle();
-
-  if(data){
-    console.log('Store already exists')
+  if (!store) {
+    let { data: store, error: storeErr } = await supabase
+      .from('stores')
+      .upsert({ store_name: item.store_name })
+      .select();
   }
+  const user_id = '804aca98-021d-483e-8ad5-3974a4189471';
+  //we need to store image first
 
+  const { data: receipt, error: receiptErr } = await supabase.storage
+    .from('tsenga')
+    .upload(
+      `receipts_images/${user_id}_${store.id}_${item.item_name}_${
+        (item.receipt as unknown as File).name.split(".")[1]
+      }`,
+      item.receipt,
+      {
+        cacheControl: '3600',
+        upsert: false,
+      }
+    );
+
+  const { data: laybuy, error: laybuyErr } = await supabase
+    .from('laybuys')
+    .insert([
+      {
+        item_name: item.item_name,
+        prize: item.prize,
+        duration: item.duration,
+        user_id: user_id,
+        receipt: `${connectionUrl}/storage/v1/object/public/tsenga/${receipt?.path}`,
+        deposit_amount: item.deposit_amount,
+        store_id: store.id,
+      },
+    ]);
+  // console.log('Store');
 }
 
 export async function getAllUserBuys(
@@ -37,16 +68,19 @@ export async function getAllUserBuys(
     )
     .eq('user_id', user_id);
 
-
-
   (laybuys as unknown as LayBuyItem[])?.forEach(async (laybuy) => {
     let { data: store, error } = await supabase
       .from('stores')
-      .select("*")
-      .eq('id', laybuy.store_id).maybeSingle();
-      console.log(store)
-    laybuy.store = {StoreZod:{store_name:store?.store_name as string,id:store?.id as string}};
-   
+      .select('*')
+      .eq('id', laybuy.store_id)
+      .maybeSingle();
+    console.log(store);
+    laybuy.store = {
+      StoreZod: {
+        store_name: store?.store_name as string,
+        id: store?.id as string,
+      },
+    };
   });
 
   if (laybuys) {
@@ -56,5 +90,3 @@ export async function getAllUserBuys(
 
   throw error;
 }
-
-
