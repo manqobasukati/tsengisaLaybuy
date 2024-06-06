@@ -1,26 +1,43 @@
 <template>
-  <div class="flex  flex-col gap-2">
-    <div class="flex  bg-white w-full flex-col gap-2 ">
+  <div class="flex flex-col gap-2">
+    <div class="flex bg-white w-full flex-col gap-2">
       <div class="text-2xl font-semibold">Lay Buys</div>
       <div class="text-sm font-thin">All your laybuys</div>
       <div class="flex w-full gap-2">
-        <div
+        <!-- <div
           v-for="(tab, key) in tabs"
-          class="text-sm font-bold border border-purple-600 rounded-md text-center p-2 text-purple-600"
+          class="text-sm font-bold rounded-md text-center p-2 bg-gradient-to-r from-green-400 to-blue-500"
           :class="{ 'text-gray-50 bg-purple-500': tab.name === activeTab.name }"
           @click="setActiveTab(tab)"
         >
           {{ tab.name }}
+        </div> -->
+        <div role="tablist" class="tabs tabs-boxed w-full">
+          <a
+            v-for="(tab, key) in tabs"
+            :key
+            role="tab"
+            class="tab"
+            :class="{ 'tab-active bg-teal-600': tab.name === activeTab.name }"
+            @click="setActiveTab(tab)"
+            >{{ tab.name }}</a
+          >
         </div>
       </div>
     </div>
     <div class="flex flex-col gap-2 h-full overflow-auto">
-      <LayBuyItem v-for="(item,key) in  allLayBuys" :laybuy_item="item" :key="key" @openLayBuyItem="handleDialogEvents" />
+      <LayBuyItem
+        v-for="(item, key) in allLayBuys"
+        :laybuy_item="item"
+        :key="key"
+      
+        @openLayBuyItem="handleDialogEvents"
+      />
     </div>
-   
+
     <div class="fixed bottom-4 right-4">
       <div
-        @click="handleDialogEvents('Create')"
+        @click="handleDialogEvents({action:'Create',item:null})"
         class="bg-white shadow-md p-4 flex justify-center items-center rounded-full"
       >
         <span class="material-icons font-bold" style="font-size: 2rem"
@@ -42,6 +59,7 @@
         <ViewLayBuyItem v-if="activeDialogView == 'View'" />
         <CreateLayBuyItem v-if="activeDialogView == 'Create'" />
         <LayBuyPayment v-if="activeDialogView === 'Pay'" />
+        <ViewReceipt v-if="activeDialogView === 'ViewReceipt'" :receiptUrl='activeLayBuyItem?.receipt as string' />
       </div>
     </dialog>
   </div>
@@ -53,8 +71,9 @@ import { onMounted, ref } from 'vue';
 import type { Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import LayBuyPayment from '../components/LayBuyPayment.vue';
-import type { LayBuyItem } from '~/models/LayBuyItem.model';
+import type { LayBuyItem as LayBuyItemType } from '~/models/LayBuyItem.model';
 import { getAllUserBuys } from '~/requesHandlers/laybuys';
+import LayBuyItem from '~/components/LayBuyItem.vue';
 
 type LayBuyPageTab = {
   name: string;
@@ -66,7 +85,7 @@ const tabs: LayBuyPageTab[] = [
   { name: 'Fully Paid' },
 ];
 
-type DialogViews = 'Create' | 'View' | 'Pay';
+type DialogViews = 'Create' | 'View' | 'Pay' | 'ViewReceipt';
 
 const activeTab: Ref<LayBuyPageTab> = ref(tabs[0]);
 
@@ -78,19 +97,25 @@ function setActiveTab(tab: typeof activeTab.value) {
   activeTab.value = tab;
 }
 
-const allLayBuys:Ref<LayBuyItem[]|null> = ref(null);
+const activeLayBuyItem:Ref<LayBuyItemType|null> = ref(null);
 
-const loggedInUserId:Ref<string> = ref('804aca98-021d-483e-8ad5-3974a4189471')
+const allLayBuys: Ref<LayBuyItemType[] | null> = ref(null);
+
+const loggedInUserId: Ref<string> = ref('804aca98-021d-483e-8ad5-3974a4189471');
 
 const router = useRouter();
 
-onMounted(async()=>{
-  getAllUserBuys(loggedInUserId.value).then((val)=>{
+onMounted(async () => {
+  getAllUserBuys(loggedInUserId.value).then((val) => {
     allLayBuys.value = val;
-  })
-})
-const handleDialogEvents = (view: DialogViews) => {
-  activeDialogView.value = view;
+  });
+});
+const selectLayBuyItem = (laybuyItem:LayBuyItemType)=>{
+
+}
+const handleDialogEvents = (val:{action: DialogViews,item:LayBuyItemType | null}) => {
+  activeDialogView.value = val.action;
+  activeLayBuyItem.value = val.item;
   console.log('open dialog', my_modal_5.value?.showModal());
 };
 onMounted(() => {
