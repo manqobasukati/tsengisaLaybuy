@@ -4,34 +4,45 @@
     <div class="flex w-full flex-col gap-1">
       <label class="form-control w-full">
         <div class="label">
-          <span class="label-text">Item name</span>
+          <span class="label-text">Item name </span>
         </div>
         <input
           type="text"
           placeholder="Type here"
-          value="Khakhi Chino pants"
+          v-model="localLaybuyItem.item_name"
           class="input input-bordered w-full"
         />
       </label>
-      <label class="form-control w-full">
-        <div class="label">
-          <span class="label-text">Store</span>
-        </div>
-        <input
-          type="text"
-          value="Edgars Stores"
-          placeholder="Type here"
-          class="input input-bordered w-full"
-        />
-      </label>
+      <label for="store" class="form-control w-full">
+          <div class="label">
+            <span class="label-text">Store</span>
+          </div>
+          <input
+            type="text"
+            placeholder="Type here"
+            class="input input-bordered w-full"
+            list="stores"
+            name="store"
+            v-model="localLaybuyItem.store_id"
+          />
+          <datalist id="stores">
+            <option
+              v-for="(store, key) in retailStores"
+              :key="key"
+              :value="store.store_name"
+            >
+              {{ store.store_name }}
+            </option>
+          </datalist>
+        </label>
       <label class="form-control w-full">
         <div class="label">
           <span class="label-text">Months (Duration)</span>
         </div>
         <input
           type="text"
-          value="6"
           placeholder="Type here"
+          v-model="localLaybuyItem.duration"
           class="input input-bordered w-full"
         />
       </label>
@@ -41,6 +52,7 @@
         </div>
         <input
           type="file"
+         
           class="file-input file-input-bordered w-full file-input-teal"
         />
       </label>
@@ -52,7 +64,7 @@
           <input
             type="number"
             placeholder="Type here"
-            value="400"
+            v-model="localLaybuyItem.prize"
             class="input input-bordered w-full"
           />
         </label>
@@ -63,7 +75,8 @@
           <input
             type="number"
             placeholder="In Emalangeni"
-            value="100"
+            
+            v-model="localLaybuyItem.deposit_amount"
             class="input input-bordered w-full"
           />
         </label>
@@ -83,3 +96,33 @@
     </div>
   </div>
 </template>
+
+
+<script setup lang="ts">
+import type { LayBuyItem } from '~/models/LayBuyItem.model';
+import type { Store } from '~/models/Store.model';
+import { getStores } from '~/requesHandlers/stores';
+
+type Props = {
+  laybuyItem:LayBuyItem | null
+}
+
+const props = defineProps<Props>();
+
+const retailStores: Ref<Store[] | null> = ref(null);
+const localLaybuyItem:Ref<LayBuyItem> = ref(JSON.parse(JSON.stringify(props.laybuyItem || {} as LayBuyItem))); 
+
+
+onMounted(() => {
+  getStores().then((stores) => {
+    retailStores.value = stores;
+  });
+
+
+  
+});
+
+watch(()=>props.laybuyItem,(n,o)=>{
+  localLaybuyItem.value = JSON.parse(JSON.stringify(props.laybuyItem || {} as LayBuyItem));
+})
+</script>

@@ -30,7 +30,7 @@
         v-for="(item, key) in allLayBuys"
         :laybuy_item="item"
         :key="key"
-      
+         
         @openLayBuyItem="handleDialogEvents"
       />
     </div>
@@ -56,9 +56,9 @@
             </button>
           </form>
         </div>
-        <ViewLayBuyItem v-if="activeDialogView == 'View'" />
+        <ViewLayBuyItem :laybuyItem="activeLayBuyItem" v-if="activeDialogView == 'View'" />
         <CreateLayBuyItem v-if="activeDialogView == 'Create'" />
-        <LayBuyPayment v-if="activeDialogView === 'Pay'" />
+        <LayBuyPayment v-if="activeDialogView === 'Pay'"  :laybuy_id="activeLayBuyItem?.id as string"/>
         <ViewReceipt v-if="activeDialogView === 'ViewReceipt'" :receiptUrl='activeLayBuyItem?.receipt as string' />
       </div>
     </dialog>
@@ -116,7 +116,9 @@ const selectLayBuyItem = (laybuyItem:LayBuyItemType)=>{
 const handleDialogEvents = (val:{action: DialogViews,item:LayBuyItemType | null}) => {
   activeDialogView.value = val.action;
   activeLayBuyItem.value = val.item;
-  console.log('open dialog', my_modal_5.value?.showModal());
+
+  my_modal_5.value?.showModal()
+  console.log('open dialog',allLayBuys.value);
 };
 onMounted(() => {
   setActiveTab({ name: router.currentRoute.value.query.tab as string });

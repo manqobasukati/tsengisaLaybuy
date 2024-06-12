@@ -19,6 +19,7 @@ const message = computed(() => {
   });
 
   if (findPath) {
+    console.log(findPath)
     return `${findPath?.message}`;
   }
   return '';

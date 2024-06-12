@@ -57,6 +57,7 @@ export async function getAllUserBuys(
     .from('laybuys')
     .select(
       `
+        id,
         item_name,
         prize,
         duration,
