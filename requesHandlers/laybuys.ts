@@ -25,7 +25,7 @@ export async function createLayBuyItem(item: LayBuyItemCreate) {
     .from('tsenga')
     .upload(
       `receipts_images/${user_id}_${store.id}_${item.item_name}_${
-        (item.receipt as unknown as File).name.split(".")[1]
+        (item.receipt as unknown as File).name.split('.')[1]
       }`,
       item.receipt,
       {
@@ -70,12 +70,19 @@ export async function getAllUserBuys(
     .eq('user_id', user_id);
 
   (laybuys as unknown as LayBuyItem[])?.forEach(async (laybuy) => {
-    let { data: store, error } = await supabase
+    let { data: store, error: storeError } = await supabase
       .from('stores')
       .select('*')
       .eq('id', laybuy.store_id)
       .maybeSingle();
-    console.log(store);
+
+    let { data: transactions, error: transactionError } = await supabase
+      .from('transactions')
+      .select('amount')
+      .eq('laybuy_id', laybuy.id);
+
+    laybuy.transactions = transactions as any;
+
     laybuy.store = {
       StoreZod: {
         store_name: store?.store_name as string,

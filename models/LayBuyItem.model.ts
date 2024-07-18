@@ -14,6 +14,7 @@ export const LayBuyItemZod = z.object({
     store_id:z.string().uuid(),
     store:z.object({StoreZod}).optional(),
     user_id:z.string().uuid(),
+    transactions:z.object({amount:z.number()}).optional().array()
 })
 
 
@@ -25,6 +26,7 @@ export const LayBuyItemCreateZod = z.object({
     deposit_amount:z.number(),
     store_name:z.string().uuid(),
     user_id:z.string().uuid(),
+    
 });
 
 

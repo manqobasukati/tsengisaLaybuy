@@ -26,18 +26,19 @@
       </div>
     </div>
     <div class="flex flex-col gap-2 h-full overflow-auto">
-      <LayBuyItem
-        v-for="(item, key) in allLayBuys"
-        :laybuy_item="item"
-        :key="key"
-         
-        @openLayBuyItem="handleDialogEvents"
-      />
+      <div v-for="(item, key) in allLayBuys">
+        <LayBuyItem
+          :laybuy_item="item"
+          :key="key"
+          v-if="LayBuyPageShower(activeTab.name, item)"
+          @openLayBuyItem="handleDialogEvents"
+        />
+      </div>
     </div>
 
     <div class="fixed bottom-4 right-4">
       <div
-        @click="handleDialogEvents({action:'Create',item:null})"
+        @click="handleDialogEvents({ action: 'Create', item: null })"
         class="bg-white shadow-md p-4 flex justify-center items-center rounded-full"
       >
         <span class="material-icons font-bold" style="font-size: 2rem"
@@ -56,10 +57,19 @@
             </button>
           </form>
         </div>
-        <ViewLayBuyItem :laybuyItem="activeLayBuyItem" v-if="activeDialogView == 'View'" />
+        <ViewLayBuyItem
+          :laybuyItem="activeLayBuyItem"
+          v-if="activeDialogView == 'View'"
+        />
         <CreateLayBuyItem v-if="activeDialogView == 'Create'" />
-        <LayBuyPayment v-if="activeDialogView === 'Pay'"  :laybuy_id="activeLayBuyItem?.id as string"/>
-        <ViewReceipt v-if="activeDialogView === 'ViewReceipt'" :receiptUrl='activeLayBuyItem?.receipt as string' />
+        <LayBuyPayment
+          v-if="activeDialogView === 'Pay'"
+          :laybuy_id="asString(activeLayBuyItem?.id)"
+        />
+        <ViewReceipt
+          v-if="activeDialogView === 'ViewReceipt'"
+          :receiptUrl="asString(activeLayBuyItem?.receipt)"
+        />
       </div>
     </dialog>
   </div>
@@ -74,6 +84,8 @@ import LayBuyPayment from '../components/LayBuyPayment.vue';
 import type { LayBuyItem as LayBuyItemType } from '~/models/LayBuyItem.model';
 import { getAllUserBuys } from '~/requesHandlers/laybuys';
 import LayBuyItem from '~/components/LayBuyItem.vue';
+
+import { LayBuyPageShower } from '@/helpers/laybuys';
 
 type LayBuyPageTab = {
   name: string;
@@ -97,7 +109,7 @@ function setActiveTab(tab: typeof activeTab.value) {
   activeTab.value = tab;
 }
 
-const activeLayBuyItem:Ref<LayBuyItemType|null> = ref(null);
+const activeLayBuyItem: Ref<LayBuyItemType | null> = ref(null);
 
 const allLayBuys: Ref<LayBuyItemType[] | null> = ref(null);
 
@@ -105,20 +117,23 @@ const loggedInUserId: Ref<string> = ref('804aca98-021d-483e-8ad5-3974a4189471');
 
 const router = useRouter();
 
-onMounted(async () => {
-  getAllUserBuys(loggedInUserId.value).then((val) => {
-    allLayBuys.value = val;
-  });
+getAllUserBuys(loggedInUserId.value).then((val) => {
+  allLayBuys.value = val;
 });
-const selectLayBuyItem = (laybuyItem:LayBuyItemType)=>{
-
-}
-const handleDialogEvents = (val:{action: DialogViews,item:LayBuyItemType | null}) => {
+const selectLayBuyItem = (laybuyItem: LayBuyItemType) => {};
+const handleDialogEvents = (val: {
+  action: DialogViews;
+  item: LayBuyItemType | null;
+}) => {
   activeDialogView.value = val.action;
   activeLayBuyItem.value = val.item;
 
-  my_modal_5.value?.showModal()
-  console.log('open dialog',allLayBuys.value);
+  my_modal_5.value?.showModal();
+  console.log('open dialog', allLayBuys.value);
+};
+
+const asString = (value: any) => {
+  return value as string;
 };
 onMounted(() => {
   setActiveTab({ name: router.currentRoute.value.query.tab as string });
