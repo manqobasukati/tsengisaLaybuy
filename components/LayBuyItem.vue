@@ -5,11 +5,20 @@
     <div class="text-md text-white flex justify-between">
       <div class="flex flex-col">
         <div class="text-lg">{{ laybuy_item.item_name }}</div>
-        <div class="text-md text-gray-300 font-thin">
-          {{ laybuy_item.store?.StoreZod.store_name }}
+        <div
+          v-if="
+            laybuy_item.store &&
+            laybuy_item.store.StoreZod &&
+            laybuy_item.store.StoreZod.store_name
+          "
+          class="text-md text-gray-300 font-thin"
+        >
+          {{ laybuy_item.store.StoreZod.store_name }}
         </div>
       </div>
-      <div class="text-xl font-thin">{{ laybuy_item.transactions }} /{{ laybuy_item.prize }}</div>
+      <div class="text-xl font-thin">
+        {{ total_transactions }} /{{ laybuy_item.prize }}
+      </div>
     </div>
     <div class="divider"></div>
     <div class="flex justify-between text-white">
@@ -49,23 +58,13 @@ type Props = {
 const props = defineProps<Props>();
 
 const total_transactions = computed(() => {
-  return props.laybuy_item.transactions?.reduce((a:any, b:any) => {
-    console.log(a,b)
+  return props.laybuy_item.transactions?.reduce((a: any, b: any) => {
+    console.log(a, b);
     if (b?.amount) {
       return a + b?.amount;
     }
-  },0);
+  }, 0);
 });
-
-const add = (laybuy_item:LayBuyItem)=>{
-  return laybuy_item.transactions?.reduce((a:any,b:any)=>{
-    if(a?.amount && b?.amount){
-      return a?.amount + b?.amount;
-    }
-   
-    return 0;
-  })
-}
 
 const onSelectOpenLayBuyItem = (action: string) => {
   emits('openLayBuyItem', { action: action, item: props.laybuy_item });

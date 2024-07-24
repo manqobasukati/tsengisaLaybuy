@@ -69,7 +69,7 @@ export async function getAllUserBuys(
     )
     .eq('user_id', user_id);
 
-  (laybuys as unknown as LayBuyItem[])?.forEach(async (laybuy) => {
+  const items = (laybuys as unknown as LayBuyItem[]).map(async (laybuy) => {
     let { data: store, error: storeError } = await supabase
       .from('stores')
       .select('*')
@@ -89,11 +89,11 @@ export async function getAllUserBuys(
         id: store?.id as string,
       },
     };
+    return laybuy;
   });
 
-  if (laybuys) {
-    console.log('Buys', laybuys);
-    return laybuys;
+  if (items) {
+    return Promise.all(items);
   }
 
   throw error;

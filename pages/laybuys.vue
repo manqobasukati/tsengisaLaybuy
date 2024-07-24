@@ -26,7 +26,7 @@
       </div>
     </div>
     <div class="flex flex-col gap-2 h-full overflow-auto">
-      <div v-for="(item, key) in allLayBuys">
+      <div v-if="allLayBuys" v-for="(item, key) in allLayBuys">
         <LayBuyItem
           :laybuy_item="item"
           :key="key"
@@ -120,6 +120,7 @@ const router = useRouter();
 getAllUserBuys(loggedInUserId.value).then((val) => {
   allLayBuys.value = val;
 });
+
 const selectLayBuyItem = (laybuyItem: LayBuyItemType) => {};
 const handleDialogEvents = (val: {
   action: DialogViews;
@@ -129,7 +130,6 @@ const handleDialogEvents = (val: {
   activeLayBuyItem.value = val.item;
 
   my_modal_5.value?.showModal();
-  console.log('open dialog', allLayBuys.value);
 };
 
 const asString = (value: any) => {
