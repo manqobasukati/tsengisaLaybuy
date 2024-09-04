@@ -1,6 +1,7 @@
 import type { LayBuyItem, LayBuyItemCreate } from '~/models/LayBuyItem.model';
 import { connectionUrl, supabase } from '~/superBaseClient';
 import type { Store } from '../models/Store.model';
+import { getLoggedInUser } from './users';
 
 export async function createLayBuyItem(item: LayBuyItemCreate) {
   //
@@ -18,9 +19,9 @@ export async function createLayBuyItem(item: LayBuyItemCreate) {
       .upsert({ store_name: item.store_name })
       .select();
   }
-  const user_id = '804aca98-021d-483e-8ad5-3974a4189471';
+  const user_id = getLoggedInUser().id;
   //we need to store image first
-
+  console.log('UserId', user_id);
   const { data: receipt, error: receiptErr } = await supabase.storage
     .from('tsenga')
     .upload(
@@ -51,7 +52,7 @@ export async function createLayBuyItem(item: LayBuyItemCreate) {
 }
 
 export async function getAllUserBuys(
-  user_id: string
+  email: string
 ): Promise<LayBuyItem[] | any> {
   let { data: laybuys, error } = await supabase
     .from('laybuys')
@@ -67,7 +68,7 @@ export async function getAllUserBuys(
         receipt
     `
     )
-    .eq('user_id', user_id);
+    .eq('email', email);
 
   const items = (laybuys as unknown as LayBuyItem[]).map(async (laybuy) => {
     let { data: store, error: storeError } = await supabase

@@ -81,7 +81,7 @@ const menuItems: Ref<MenuItem[]> = ref([
   },
   {
     itemName: 'Log out',
-    itemLink:"/laybuys?tab=New",
+    itemLink:"/sign-in?action=logout",
     itemIcon: 'power_settings_new',
   },
 ]);

@@ -76,6 +76,10 @@
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+  middleware: ['auth'],
+});
+
 import { onMounted, ref } from 'vue';
 
 import type { Ref } from 'vue';
@@ -86,6 +90,7 @@ import { getAllUserBuys } from '~/requesHandlers/laybuys';
 import LayBuyItem from '~/components/LayBuyItem.vue';
 
 import { LayBuyPageShower } from '@/helpers/laybuys';
+import { getLoggedInUser } from '~/requesHandlers/users';
 
 type LayBuyPageTab = {
   name: string;
@@ -113,11 +118,13 @@ const activeLayBuyItem: Ref<LayBuyItemType | null> = ref(null);
 
 const allLayBuys: Ref<LayBuyItemType[] | null> = ref(null);
 
-const loggedInUserId: Ref<string> = ref('804aca98-021d-483e-8ad5-3974a4189471');
+const loggedInUserEmail: Ref<string> = ref(getLoggedInUser().email);
+
+console.log(getLoggedInUser())
 
 const router = useRouter();
 
-getAllUserBuys(loggedInUserId.value).then((val) => {
+getAllUserBuys(loggedInUserEmail.value).then((val) => {
   allLayBuys.value = val;
 });
 
