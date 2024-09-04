@@ -118,13 +118,13 @@ const activeLayBuyItem: Ref<LayBuyItemType | null> = ref(null);
 
 const allLayBuys: Ref<LayBuyItemType[] | null> = ref(null);
 
-const loggedInUserEmail: Ref<string> = ref(getLoggedInUser().email);
+const loogedInUserId: Ref<string> = ref(getLoggedInUser().id);
 
-console.log(getLoggedInUser())
+console.log(getLoggedInUser());
 
 const router = useRouter();
 
-getAllUserBuys(loggedInUserEmail.value).then((val) => {
+getAllUserBuys(loogedInUserId.value).then((val) => {
   allLayBuys.value = val;
 });
 

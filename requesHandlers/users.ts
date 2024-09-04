@@ -21,7 +21,7 @@ export async function createUser(user: UserSignUp) {
 }
 
 export async function signInUser(user: { email: string; password: string }) {
-  let { data, error } = await supabase.auth.signUp({
+  let { data, error } = await supabase.auth.signInWithPassword({
     password: user.password,
     email: user.email,
     // options:{

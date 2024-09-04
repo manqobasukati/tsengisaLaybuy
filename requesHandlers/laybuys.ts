@@ -52,8 +52,9 @@ export async function createLayBuyItem(item: LayBuyItemCreate) {
 }
 
 export async function getAllUserBuys(
-  email: string
+  user_id: string
 ): Promise<LayBuyItem[] | any> {
+  console.log('USER_ID', user_id);
   let { data: laybuys, error } = await supabase
     .from('laybuys')
     .select(
@@ -68,7 +69,7 @@ export async function getAllUserBuys(
         receipt
     `
     )
-    .eq('email', email);
+    .eq('user_id', user_id);
 
   const items = (laybuys as unknown as LayBuyItem[]).map(async (laybuy) => {
     let { data: store, error: storeError } = await supabase
