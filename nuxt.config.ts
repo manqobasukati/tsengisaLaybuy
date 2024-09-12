@@ -11,31 +11,28 @@ export default defineNuxtConfig({
   },
   devServer: {
     host: '0.0.0.0',
+    https:true
   },
   pwa: {
     manifest: {
-    //   name: "Tsengisa PWA",
-
-    //   short_name: "pwa nuxt",
-      theme_color:'#8a8a5e',
-      description: "Arman Abi r.man.abi@gmail.com",
+      name: 'Tsengisa',
+      short_name: 'AppName',
+      description: 'Your App Description',
+      theme_color: '#ffffff',  // Customize as needed
+      background_color: '#ffffff',  // Customize as needed
+      display: 'standalone',
+      start_url: '/',
       icons: [
         {
-          src: 'image.png',
-          sizes: "150x150",
-          type: "image/png"
+          src: '/logo.png',
+          sizes: '192x192',
+          type: 'image/png'
         },
+      
       ]
-
     },
     workbox: {
-      navigateFallback: "/",
-
-    },
-    devOptions: {
-      enabled: true,
-      type: "module"
+      // Optionally configure workbox options here
     }
-
   }
 });
