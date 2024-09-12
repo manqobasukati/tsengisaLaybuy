@@ -39,8 +39,8 @@ export default defineNuxtConfig({
     mode: 'development',
     // disable PWA only when in preview mode
     scope: '/',
-    srcDir: './service-worker',
-    filename: 'sw.ts',
+    // srcDir: './service-worker',
+    // filename: 'sw.ts',
     strategies: 'injectManifest',
     injectRegister: false,
     includeManifestIcons: false,
