@@ -42,15 +42,17 @@ export default defineNuxtConfig({
     // srcDir: './service-worker',
     // filename: 'sw.ts',
     strategies: 'injectManifest',
-    injectRegister: false,
+   // injectRegister: false,
     includeManifestIcons: false,
-    manifest: false,
-    injectManifest: {
-      globPatterns: [
-        '**/*.{js,json,css,html,txt,svg,png,ico,webp,woff,woff2,ttf,eot,otf,wasm}',
-      ],
-      globIgnores: ['emojis/**', 'manifest**.webmanifest'],
+    manifest: {
+      name:"Appy"
     },
+    // injectManifest: {
+    //   globPatterns: [
+    //     '**/*.{js,json,css,html,txt,svg,png,ico,webp,woff,woff2,ttf,eot,otf,wasm}',
+    //   ],
+    //   globIgnores: ['emojis/**', 'manifest**.webmanifest'],
+    // },
     devOptions: {
       enabled: process.env.VITE_DEV_PWA === 'true',
       type: 'module',
