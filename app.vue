@@ -1,4 +1,5 @@
 <template>
+  <link rel="manifest" href="/manifest.webmanifest">
   <div>
     <NuxtLayout>
       <NuxtPage></NuxtPage>
