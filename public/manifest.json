@@ -1,0 +1,16 @@
+{
+    "name": "Tsengisa",
+    "short_name": "Tsengisa",
+    "description": "An awesome e-commerce platform",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "icons": [
+      {
+        "src": "logo.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ]
+  }

@@ -15,6 +15,7 @@ export default defineNuxtConfig({
   },
   pwa: {
     manifest: {
+  
       name: 'Tsengisa',
       short_name: 'AppName',
       description: 'Your App Description',
@@ -31,6 +32,7 @@ export default defineNuxtConfig({
       
       ]
     },
+    registerType: 'autoUpdate',
     workbox: {
       // Optionally configure workbox options here
     }
