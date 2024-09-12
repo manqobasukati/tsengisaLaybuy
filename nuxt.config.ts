@@ -18,7 +18,7 @@ export default defineNuxtConfig({
   
       name: 'Tsengisa',
       short_name: 'Tsengisa',
-      description: 'Your App Description',
+      description: 'Your App Descriptio',
       theme_color: '#ffffff',  // Customize as needed
       background_color: '#ffffff',  // Customize as needed
       display: 'standalone',
