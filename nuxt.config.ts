@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
-
+  modules: ["@nuxt/image", "@vite-pwa/nuxt"],
   postcss: {
     plugins: {
       tailwindcss: {},
@@ -12,5 +12,5 @@ export default defineNuxtConfig({
   devServer:{
     host:"0.0.0.0"
   },
-  modules: ["@nuxt/image"]
+ 
 })
