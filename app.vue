@@ -1,8 +1,9 @@
 <template>
-  <head>
-    <link rel="manifest" href="./public/manifest.webmanifest" />
-  </head>
   <div>
+    <Head>
+      <Link rel="manifest" href="/manifest.webmanifest" />
+    </Head>
+
     <NuxtLayout>
       <NuxtPage></NuxtPage>
     </NuxtLayout>
