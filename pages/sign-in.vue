@@ -26,7 +26,7 @@
       </label>
       <button
         @click="login()"
-        class="btn btn-wide w-full bg-teal-700 text-white"
+        class="btn btn-wide bg-teal-700 text-white"
       >
         Submit
       </button>
