@@ -4,7 +4,7 @@
     <div class="flex flex-col gap-2 w-2/3">
       <label class="form-control w-full">
         <div class="label">
-          <span class="label-text text-xs font-bold">Email</span>
+          <span class="label-text text-xs font-bold">Emails</span>
         </div>
         <input
           type="text"

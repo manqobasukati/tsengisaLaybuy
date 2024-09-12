@@ -15,6 +15,7 @@ export default defineNuxtConfig({
   pwa: {
     manifest: {
       name: "Tsengisa PWA",
+      
       short_name: "pwa nuxt",
       theme_color:'#8a8a5e',
       description: "Arman Abi r.man.abi@gmail.com",
