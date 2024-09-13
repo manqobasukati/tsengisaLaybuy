@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-2">
-    <div class="flex bg-white w-full flex-col gap-2">
+    <div class="flex bg-white w-full flex-col gap-2 sticky top-0">
       <div class="text-2xl font-semibold">Lay Buys</div>
       <div class="text-sm font-thin">All your laybuys</div>
       <div class="flex w-full gap-2">
@@ -60,11 +60,17 @@
         <ViewLayBuyItem
           :laybuyItem="activeLayBuyItem"
           v-if="activeDialogView == 'View'"
+          @delete-lay-buy-item="handleDeleteLayBuyItem"
+          @edit-lay-buy-item="handleEditLayBuyItem"
         />
-        <CreateLayBuyItem v-if="activeDialogView == 'Create'" />
+        <CreateLayBuyItem
+          @create-lay-buy-item-success="handleCreateLayBuyItem"
+          v-if="activeDialogView == 'Create'"
+        />
         <LayBuyPayment
           v-if="activeDialogView === 'Pay'"
           :laybuy_id="asString(activeLayBuyItem?.id)"
+          @payment-success="handlePaymentSuccess()"
         />
         <ViewReceipt
           v-if="activeDialogView === 'ViewReceipt'"
@@ -102,7 +108,7 @@ const tabs: LayBuyPageTab[] = [
   { name: 'Fully Paid' },
 ];
 
-type DialogViews = 'Create' | 'View' | 'Pay' | 'ViewReceipt';
+type DialogViews = 'Create' | 'View' | 'Pay' | 'ViewReceipt' | null;
 
 const activeTab: Ref<LayBuyPageTab> = ref(tabs[0]);
 
@@ -137,6 +143,22 @@ const handleDialogEvents = (val: {
   activeLayBuyItem.value = val.item;
 
   my_modal_5.value?.showModal();
+};
+
+const handlePaymentSuccess = () => {
+  my_modal_5.value?.close();
+};
+
+const handleDeleteLayBuyItem = () => {
+  my_modal_5.value?.close();
+};
+
+const handleEditLayBuyItem = () => {
+  my_modal_5.value?.close();
+};
+
+const handleCreateLayBuyItem = () => {
+  my_modal_5.value?.close();
 };
 
 const asString = (value: any) => {

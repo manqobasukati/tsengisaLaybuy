@@ -94,33 +94,34 @@
 <script setup lang="ts">
 import type { Store } from '~/models/Store.model';
 import { getStores } from '@/requesHandlers/stores';
-import {createLayBuyItem} from "@/requesHandlers/laybuys"
+import { createLayBuyItem } from '@/requesHandlers/laybuys';
 import type { LayBuyItem, LayBuyItemCreate } from '~/models/LayBuyItem.model';
 
 const retailStores: Ref<Store[] | null> = ref(null);
 
 const laybuyItem: Ref<LayBuyItemCreate> = ref({} as LayBuyItemCreate);
 
+const emits = defineEmits(['createLayBuyItemSuccess']);
+
 const submitCreateLayBuyItem = (evt: Event) => {
-  evt.preventDefault()
-  console.log(laybuyItem.value,)
-  createLayBuyItem(laybuyItem.value).then(()=>{
-    console.log("Come back")
+  evt.preventDefault();
+  console.log(laybuyItem.value);
+  createLayBuyItem(laybuyItem.value).then(() => {
+    console.log('Come back');
+    emits('createLayBuyItemSuccess');
   });
- // console.log('Submit form',evt.target);
+  // console.log('Submit form',evt.target);
 };
 
-
-const handleFileChange = (evt:Event)=>{
+const handleFileChange = (evt: Event) => {
   laybuyItem.value.receipt = (evt.target as any).files[0] as any;
-    // const reader = new FileReader();
-    // reader.readAsDataURL( (evt.target as any).files[0]);
-    // reader.onload = ()=>{
-    //   laybuyItem.value.receipt =  reader.result as string;
-    // }
-   
-}
-
+  // const reader = new FileReader();
+  // reader.readAsDataURL( (evt.target as any).files[0]);
+  // reader.onload = ()=>{
+  //   laybuyItem.value.receipt =  reader.result as string;
+  // }
+};
+const handleCreateLayBuyItem = () => {};
 onMounted(() => {
   getStores().then((stores) => {
     retailStores.value = stores;
