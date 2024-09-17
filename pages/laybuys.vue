@@ -21,6 +21,7 @@
     </div>
     <div class="flex flex-col gap-2 h-full overflow-auto">
       <div v-if="allLayBuys" v-for="(item, key) in allLayBuys">
+     
         <LayBuyItem :laybuy_item="item" :key="key" v-if="LayBuyPageShower(activeTab.name, item)"
           @openLayBuyItem="handleDialogEvents" />
       </div>
@@ -78,7 +79,7 @@ type LayBuyPageTab = {
 const tabs: LayBuyPageTab[] = [
   { name: 'New' },
   { name: 'Outstanding' },
-  { name: 'Fully Paid' },
+  { name: 'Paid' },
 ];
 
 type DialogViews = 'Create' | 'View' | 'Pay' | 'ViewReceipt' | null;
@@ -88,18 +89,49 @@ const activeTab: Ref<LayBuyPageTab> = ref(tabs[0]);
 const activeDialogView: Ref<DialogViews | null> = ref(null);
 
 const my_modal_5: Ref<any> = ref(null);
-
-function setActiveTab(tab: typeof activeTab.value) {
-  activeTab.value = tab;
-}
-
+const allLayBuys: Ref<LayBuyItemType[] | null> = ref(null);
 const activeLayBuyItem: Ref<LayBuyItemType | null> = ref(null);
 
-const allLayBuys: Ref<LayBuyItemType[] | null> = ref(null);
+
 
 const loogedInUserId: Ref<string> = ref(getLoggedInUser().id);
 
-console.log(getLoggedInUser());
+function setActiveTab(tab: typeof activeTab.value) {
+
+  activeTab.value = tab;
+  const tabs: { [name: string]: any } = {
+    'New': () => {
+      return allLayBuys.value
+    },
+    'Outstanding': () => {
+      return allLayBuys.value;
+      // return allLayBuys.value?.filter((item: LayBuyItemType) => {
+      //   const total = item.transactions?.reduce((a: any, b: any) => {
+
+      //     if (b?.amount) {
+      //       return a + b?.amount;
+      //     }
+      //   }, 0);
+
+      //   return total < item.prize;
+      // }).map((val)=>{
+      //   console.log(val)
+      //   return val;
+      // }) as LayBuyItemType[];
+
+
+    },
+    'Paid': () => {
+      return allLayBuys.value
+    }
+  }
+  console.log(tabs[tab.name]())
+  return tabs[tab.name]()
+
+}
+
+
+
 
 const router = useRouter();
 
@@ -107,7 +139,6 @@ getAllUserBuys(loogedInUserId.value).then((val) => {
   allLayBuys.value = val;
 });
 
-const selectLayBuyItem = (laybuyItem: LayBuyItemType) => { };
 const handleDialogEvents = (val: {
   action: DialogViews;
   item: LayBuyItemType | null;
@@ -119,7 +150,11 @@ const handleDialogEvents = (val: {
 };
 
 const handlePaymentSuccess = () => {
-  my_modal_5.value?.close();
+
+  getAllUserBuys(loogedInUserId.value).then((val) => {
+    allLayBuys.value = val;
+    my_modal_5.value?.close();
+  });
 };
 
 const handleDeleteLayBuyItem = () => {
