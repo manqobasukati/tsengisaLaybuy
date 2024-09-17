@@ -65,7 +65,8 @@ export async function getAllUserBuys(
         deposit_amount, 
         store_id,
         user_id,
-        receipt
+        receipt,
+        created_at
     `
     )
     .eq('user_id', user_id);

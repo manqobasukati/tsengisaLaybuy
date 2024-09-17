@@ -99,34 +99,34 @@ const loogedInUserId: Ref<string> = ref(getLoggedInUser().id);
 function setActiveTab(tab: typeof activeTab.value) {
 
   activeTab.value = tab;
-  const tabs: { [name: string]: any } = {
-    'New': () => {
-      return allLayBuys.value
-    },
-    'Outstanding': () => {
-      return allLayBuys.value;
-      // return allLayBuys.value?.filter((item: LayBuyItemType) => {
-      //   const total = item.transactions?.reduce((a: any, b: any) => {
+  // const tabs: { [name: string]: any } = {
+  //   'New': () => {
+  //     return allLayBuys.value
+  //   },
+  //   'Outstanding': () => {
+  //     return allLayBuys.value;
+  //     // return allLayBuys.value?.filter((item: LayBuyItemType) => {
+  //     //   const total = item.transactions?.reduce((a: any, b: any) => {
 
-      //     if (b?.amount) {
-      //       return a + b?.amount;
-      //     }
-      //   }, 0);
+  //     //     if (b?.amount) {
+  //     //       return a + b?.amount;
+  //     //     }
+  //     //   }, 0);
 
-      //   return total < item.prize;
-      // }).map((val)=>{
-      //   console.log(val)
-      //   return val;
-      // }) as LayBuyItemType[];
+  //     //   return total < item.prize;
+  //     // }).map((val)=>{
+  //     //   console.log(val)
+  //     //   return val;
+  //     // }) as LayBuyItemType[];
 
 
-    },
-    'Paid': () => {
-      return allLayBuys.value
-    }
-  }
-  console.log(tabs[tab.name]())
-  return tabs[tab.name]()
+  //   },
+  //   'Paid': () => {
+  //     return allLayBuys.value
+  //   }
+  // }
+  // console.log(tabs[tab.name]())
+  // return tabs[tab.name]()
 
 }
 

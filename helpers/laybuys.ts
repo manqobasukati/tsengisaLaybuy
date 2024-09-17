@@ -8,27 +8,40 @@ dayjs.extend(isBetween);
 const getDueDate = (timeCreated: Date, Duration: number) => {
   const daysInAmonth = 30.417;
   const days = Duration * daysInAmonth;
-
-  return new Date(timeCreated.setDate(timeCreated.getDate() + days));
+ 
+  return dayjs(timeCreated).add(days,'day').toDate();
 };
 
 const newLayBuy = (laybuy: LayBuyItem) => {
   console.log(
-    'Active',
-    dayjs(getDueDate(new Date(laybuy.created_at), laybuy.duration)).isBetween(
+    `Due Date : ${getDueDate(new Date(laybuy.created_at), laybuy.duration)}, Created: ${dayjs(laybuy.created_at).toDate()}`,
+    dayjs( new Date()).isBetween(
       laybuy.created_at,
-      new Date()
+      getDueDate(new Date(laybuy.created_at), laybuy.duration)
     )
   );
 
-  return true;
+  return  dayjs( new Date()).isBetween(
+    laybuy.created_at,
+    getDueDate(new Date(laybuy.created_at), laybuy.duration)
+  );
 };
 const outStandingLaybuy = (laybuy: LayBuyItem) => {
-  return false;
+  return  !  dayjs( new Date()).isBetween(
+    laybuy.created_at,
+    getDueDate(new Date(laybuy.created_at), laybuy.duration)
+  );;
 };
 
 const fullyPaidLayBuy = (laybuy: LayBuyItem) => {
-  return false;
+
+  const total = laybuy.transactions?.reduce((a: any, b: any) => {
+
+    if (b?.amount) {
+      return a + b?.amount;
+    }
+  }, 0);
+  return total === laybuy.prize;
 };
 
 export function LayBuyPageShower(
@@ -38,7 +51,7 @@ export function LayBuyPageShower(
   const options: { [name: string]: boolean } = {
     New: newLayBuy(laybuy),
     Outstanding: outStandingLaybuy(laybuy),
-    'Fully Paid': fullyPaidLayBuy(laybuy),
+    'Paid': fullyPaidLayBuy(laybuy),
   };
 
   return options[activeTab];
