@@ -13,37 +13,23 @@
           {{ tab.name }}
         </div> -->
         <div role="tablist" class="tabs tabs-boxed w-full">
-          <a
-            v-for="(tab, key) in tabs"
-            :key
-            role="tab"
-            class="tab"
-            :class="{ 'tab-active bg-teal-600': tab.name === activeTab.name }"
-            @click="setActiveTab(tab)"
-            >{{ tab.name }}</a
-          >
+          <a v-for="(tab, key) in tabs" :key role="tab" class="tab"
+            :class="{ 'tab-active bg-teal-600': tab.name === activeTab.name }" @click="setActiveTab(tab)">{{ tab.name
+            }}</a>
         </div>
       </div>
     </div>
     <div class="flex flex-col gap-2 h-full overflow-auto">
       <div v-if="allLayBuys" v-for="(item, key) in allLayBuys">
-        <LayBuyItem
-          :laybuy_item="item"
-          :key="key"
-          v-if="LayBuyPageShower(activeTab.name, item)"
-          @openLayBuyItem="handleDialogEvents"
-        />
+        <LayBuyItem :laybuy_item="item" :key="key" v-if="LayBuyPageShower(activeTab.name, item)"
+          @openLayBuyItem="handleDialogEvents" />
       </div>
     </div>
 
     <div class="fixed bottom-4 right-4">
-      <div
-        @click="handleDialogEvents({ action: 'Create', item: null })"
-        class="bg-white shadow-md p-4 flex justify-center items-center rounded-full"
-      >
-        <span class="material-icons font-bold" style="font-size: 2rem"
-          >add</span
-        >
+      <div @click="handleDialogEvents({ action: 'Create', item: null })"
+        class="bg-white shadow-md p-4 flex justify-center items-center rounded-full">
+        <span class="material-icons font-bold" style="font-size: 2rem">add</span>
       </div>
     </div>
     <dialog ref="my_modal_5" class="modal modal-bottom sm:modal-middle">
@@ -57,25 +43,12 @@
             </button>
           </form>
         </div>
-        <ViewLayBuyItem
-          :laybuyItem="activeLayBuyItem"
-          v-if="activeDialogView == 'View'"
-          @delete-lay-buy-item="handleDeleteLayBuyItem"
-          @edit-lay-buy-item="handleEditLayBuyItem"
-        />
-        <CreateLayBuyItem
-          @create-lay-buy-item-success="handleCreateLayBuyItem"
-          v-if="activeDialogView == 'Create'"
-        />
-        <LayBuyPayment
-          v-if="activeDialogView === 'Pay'"
-          :laybuy_id="asString(activeLayBuyItem?.id)"
-          @payment-success="handlePaymentSuccess()"
-        />
-        <ViewReceipt
-          v-if="activeDialogView === 'ViewReceipt'"
-          :receiptUrl="asString(activeLayBuyItem?.receipt)"
-        />
+        <ViewLayBuyItem :laybuyItem="activeLayBuyItem" v-if="activeDialogView == 'View'"
+          @delete-lay-buy-item="handleDeleteLayBuyItem" @edit-lay-buy-item="handleEditLayBuyItem" />
+        <CreateLayBuyItem @create-lay-buy-item-success="handleCreateLayBuyItem" v-if="activeDialogView == 'Create'" />
+        <LayBuyPayment v-if="activeDialogView === 'Pay'" :laybuy_id="asString(activeLayBuyItem?.id)"
+          @payment-success="handlePaymentSuccess()" />
+        <ViewReceipt v-if="activeDialogView === 'ViewReceipt'" :receiptUrl="asString(activeLayBuyItem?.receipt)" />
       </div>
     </dialog>
   </div>
@@ -92,7 +65,7 @@ import type { Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import LayBuyPayment from '../components/LayBuyPayment.vue';
 import type { LayBuyItem as LayBuyItemType } from '~/models/LayBuyItem.model';
-import { getAllUserBuys } from '~/requesHandlers/laybuys';
+import { deleteLayBuyItem, getAllUserBuys } from '~/requesHandlers/laybuys';
 import LayBuyItem from '~/components/LayBuyItem.vue';
 
 import { LayBuyPageShower } from '@/helpers/laybuys';
@@ -134,7 +107,7 @@ getAllUserBuys(loogedInUserId.value).then((val) => {
   allLayBuys.value = val;
 });
 
-const selectLayBuyItem = (laybuyItem: LayBuyItemType) => {};
+const selectLayBuyItem = (laybuyItem: LayBuyItemType) => { };
 const handleDialogEvents = (val: {
   action: DialogViews;
   item: LayBuyItemType | null;
@@ -150,7 +123,13 @@ const handlePaymentSuccess = () => {
 };
 
 const handleDeleteLayBuyItem = () => {
-  my_modal_5.value?.close();
+  deleteLayBuyItem(activeLayBuyItem.value?.id as string).then(async () => {
+    const items = await getAllUserBuys(loogedInUserId.value);
+    allLayBuys.value = items;
+    my_modal_5.value?.close();
+  })
+  console.log(activeLayBuyItem.value)
+
 };
 
 const handleEditLayBuyItem = () => {

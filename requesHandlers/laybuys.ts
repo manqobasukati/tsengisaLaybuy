@@ -25,8 +25,7 @@ export async function createLayBuyItem(item: LayBuyItemCreate) {
   const { data: receipt, error: receiptErr } = await supabase.storage
     .from('tsenga')
     .upload(
-      `receipts_images/${user_id}_${store.id}_${item.item_name}_${
-        (item.receipt as unknown as File).name.split('.')[1]
+      `receipts_images/${user_id}_${store.id}_${item.item_name}_${(item.receipt as unknown as File).name.split('.')[1]
       }`,
       item.receipt,
       {
@@ -99,4 +98,18 @@ export async function getAllUserBuys(
   }
 
   throw error;
+}
+
+
+export async function deleteLayBuyItem(laybuyId: string) {
+  const { error } = await supabase
+    .from('laybuys')
+    .delete()
+    .eq('id', laybuyId)
+
+  if (error) {
+    throw error;
+  }
+
+  
 }
