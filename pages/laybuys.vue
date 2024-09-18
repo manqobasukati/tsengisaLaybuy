@@ -172,7 +172,12 @@ const handleEditLayBuyItem = () => {
 };
 
 const handleCreateLayBuyItem = () => {
-  my_modal_5.value?.close();
+
+  getAllUserBuys(loogedInUserId.value).then((val) => {
+    allLayBuys.value = val;
+    my_modal_5.value?.close();
+  });
+ 
 };
 
 const asString = (value: any) => {
