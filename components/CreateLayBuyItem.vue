@@ -82,9 +82,9 @@
           </label>
         </div>
         <button
-          class="w-full p-2 bg-teal-600 text-white font-semibold rounded-md"
+          class="w-full p-2 bg-teal-600 text-white font-semibold rounded-md flex items-center justify-center gap-1"
         >
-          Submit
+          Submit<span v-if="!creationStatus" class="loading loading-spinner loading-sm"></span>
         </button>
       </div>
     </form>
@@ -103,11 +103,13 @@ const laybuyItem: Ref<LayBuyItemCreate> = ref({} as LayBuyItemCreate);
 
 const emits = defineEmits(['createLayBuyItemSuccess']);
 
+const creationStatus:Ref<boolean|null> = ref(true);
+
 const submitCreateLayBuyItem = (evt: Event) => {
   evt.preventDefault();
-  console.log(laybuyItem.value);
+  creationStatus.value = false;
   createLayBuyItem(laybuyItem.value).then(() => {
-    console.log('Come back');
+    creationStatus.value = true;
     emits('createLayBuyItemSuccess');
   });
   // console.log('Submit form',evt.target);
