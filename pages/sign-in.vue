@@ -4,7 +4,7 @@
     <div class="flex flex-col gap-2 w-2/3">
       <label class="form-control w-full">
         <div class="label">
-          <span class="label-text text-xs font-bold">Emailss</span>
+          <span class="label-text text-xs font-bold">Emails</span>
         </div>
         <input
           type="text"
@@ -30,6 +30,7 @@
       >
         Submit
       </button>
+      <div class="text-sm text-gray-300 text-center">Do not have an account? <RouterLink class="text-blue-500" to="/sign-up">Sign Up</RouterLink></div>
     </div>
   </div>
 </template>

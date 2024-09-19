@@ -6,57 +6,41 @@
         <div class="label">
           <span class="label-text text-xs font-bold">Full Name</span>
         </div>
-        <input
-          type="text"
-          placeholder="Your full name"
-          v-model="user.fullName"
-          class="input input-bordered w-full max-w-xs"
-        />
+        <input type="text" placeholder="Your full name" v-model="user.fullName"
+          class="input input-bordered w-full max-w-xs" />
         <ValidateInput path="fullName" :errors="errors" />
       </label>
       <label class="form-control w-full">
         <div class="label">
           <span class="label-text text-xs font-bold">Phone number</span>
         </div>
-        <input
-          type="text"
-          placeholder="Your phone number"
-          v-model="user.phoneNumber"
-          class="input input-bordered w-full max-w-xs"
-        />
+        <input type="text" placeholder="Your phone number" v-model="user.phoneNumber"
+          class="input input-bordered w-full max-w-xs" />
         <ValidateInput path="phoneNumber" :errors="errors" />
       </label>
       <label class="form-control w-full">
         <div class="label">
           <span class="label-text text-xs font-bold">Email</span>
         </div>
-        <input
-          type="email"
-          placeholder="Your Email"
-          v-model="user.email"
-          class="input input-bordered w-full max-w-xs"
-        />
+        <input type="email" placeholder="Your Email" v-model="user.email"
+          class="input input-bordered w-full max-w-xs" />
         <ValidateInput path="email" :errors="errors" />
       </label>
       <label class="form-control w-full">
         <div class="label">
           <span class="label-text text-xs font-bold">Password</span>
         </div>
-        <input
-          type="password"
-          placeholder="Your password"
-          v-model="user.password"
-          class="input input-bordered w-full max-w-xs"
-        />
+        <input type="password" placeholder="Your password" v-model="user.password"
+          class="input input-bordered w-full max-w-xs" />
         <ValidateInput path="password" :errors="errors" />
       </label>
 
-      <button
-        @click="submitSignUp"
-        class="btn w-full btn-wide bg-teal-700 text-white"
-      >
+      <button @click="submitSignUp" class="btn w-full btn-wide bg-teal-700 text-white">
         Submit
       </button>
+      <div class="text-sm text-gray-300 text-center">Already have an account? <RouterLink class="text-blue-500"
+          to="/sign-in">Sign In</RouterLink>
+      </div>
     </div>
 
   </div>
@@ -88,8 +72,8 @@ const submitSignUp = () => {
 
   createUser(user.value).then((val) => {
     console.log(val);
-  }).catch((e)=>{
-    console.log('Error',e)
+  }).catch((e) => {
+    console.log('Error', e)
   })
 };
 </script>
