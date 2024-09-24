@@ -53,7 +53,7 @@ const menuItems: Ref<MenuItem[]> = ref([
   },
   {
     itemName: 'Profile',
-    itemLink: "/laybuys?tab=New",
+    itemLink: "/profile",
     itemIcon: 'person',
   },
   {
@@ -61,16 +61,16 @@ const menuItems: Ref<MenuItem[]> = ref([
     itemLink: "/laybuys?tab=New",
     itemIcon: 'help',
   },
-  {
-    itemName: 'Settings',
-    itemLink: "/settings",
-    itemIcon: 'settings',
-  },
-  {
-    itemName: 'Privacy Policy',
-    itemLink: "/laybuys?tab=New",
-    itemIcon: 'policy',
-  },
+  // {
+  //   itemName: 'Settings',
+  //   itemLink: "/settings",
+  //   itemIcon: 'settings',
+  // },
+  // {
+  //   itemName: 'Privacy Policy',
+  //   itemLink: "/laybuys?tab=New",
+  //   itemIcon: 'policy',
+  // },
   {
     itemName: 'Log out',
     itemLink: "/sign-in?action=logout",
