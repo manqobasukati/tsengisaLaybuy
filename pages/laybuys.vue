@@ -21,7 +21,7 @@
     </div>
     <div class="flex flex-col gap-2 h-full overflow-auto">
       <div v-if="allLayBuys" v-for="(item, key) in allLayBuys">
-     
+
         <LayBuyItem :laybuy_item="item" :key="key" v-if="LayBuyPageShower(activeTab.name, item)"
           @openLayBuyItem="handleDialogEvents" />
       </div>
@@ -66,7 +66,7 @@ import type { Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import LayBuyPayment from '../components/LayBuyPayment.vue';
 import type { LayBuyItem as LayBuyItemType } from '~/models/LayBuyItem.model';
-import { deleteLayBuyItem, getAllUserBuys } from '~/requesHandlers/laybuys';
+import { createLayBuyItem, deleteLayBuyItem, getAllUserBuys } from '~/requesHandlers/laybuys';
 import LayBuyItem from '~/components/LayBuyItem.vue';
 
 import { LayBuyPageShower } from '@/helpers/laybuys';
@@ -147,6 +147,7 @@ const handleDialogEvents = (val: {
   activeLayBuyItem.value = val.item;
 
   my_modal_5.value?.showModal();
+  console.log("Showing")
 };
 
 const handlePaymentSuccess = () => {
@@ -167,8 +168,11 @@ const handleDeleteLayBuyItem = () => {
 
 };
 
-const handleEditLayBuyItem = () => {
+const handleEditLayBuyItem = (laybuy: any) => {
   my_modal_5.value?.close();
+  createLayBuyItem(laybuy).then((val) => {
+    console.log("Lets see")
+  })
 };
 
 const handleCreateLayBuyItem = () => {
@@ -177,7 +181,7 @@ const handleCreateLayBuyItem = () => {
     allLayBuys.value = val;
     my_modal_5.value?.close();
   });
- 
+
 };
 
 const asString = (value: any) => {

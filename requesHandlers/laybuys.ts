@@ -36,7 +36,7 @@ export async function createLayBuyItem(item: LayBuyItemCreate) {
 
   const { data: laybuy, error: laybuyErr } = await supabase
     .from('laybuys')
-    .insert([
+    .upsert([
       {
         item_name: item.item_name,
         prize: item.prize,
@@ -49,6 +49,53 @@ export async function createLayBuyItem(item: LayBuyItemCreate) {
     ]);
   // console.log('Store');
 }
+
+// export async function editLayBuyItem(item: LayBuyItemCreate) {
+//   //
+//   // const
+//   //TODO first create the store if it does not exist
+//   const { data: store, error } = await supabase
+//     .from('stores')
+//     .select('*')
+//     .eq('store_name', item.store_name)
+//     .maybeSingle();
+
+//   if (!store) {
+//     let { data: store, error: storeErr } = await supabase
+//       .from('stores')
+//       .upsert({ store_name: item.store_name })
+//       .select();
+//   }
+//   const user_id = getLoggedInUser().id;
+//   //we need to store image first
+//   console.log('UserId', user_id);
+//   const { data: receipt, error: receiptErr } = await supabase.storage
+//     .from('tsenga')
+//     .upload(
+//       `receipts_images/${user_id}_${store.id}_${item.item_name}_${(item.receipt as unknown as File).name.split('.')[1]
+//       }`,
+//       item.receipt,
+//       {
+//         cacheControl: '3600',
+//         upsert: false,
+//       }
+//     );
+
+//   const { data: laybuy, error: laybuyErr } = await supabase
+//     .from('laybuys')
+//     .update([
+//       {
+//         item_name: item.item_name,
+//         prize: item.prize,
+//         duration: item.duration,
+//         user_id: user_id,
+//         receipt: `${connectionUrl}/storage/v1/object/public/tsenga/${receipt?.path}`,
+//         deposit_amount: item.deposit_amount,
+//         store_id: store.id,
+//       },
+//     ]);
+//   // console.log('Store');
+// }
 
 export async function getAllUserBuys(
   user_id: string

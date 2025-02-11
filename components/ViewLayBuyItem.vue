@@ -6,31 +6,17 @@
         <div class="label">
           <span class="label-text">Item name </span>
         </div>
-        <input
-          type="text"
-          placeholder="Type here"
-          v-model="localLaybuyItem.item_name"
-          class="input input-bordered w-full"
-        />
+        <input type="text" placeholder="Type here" v-model="localLaybuyItem.item_name"
+          class="input input-bordered w-full" />
       </label>
       <label for="store" class="form-control w-full">
         <div class="label">
           <span class="label-text">Store</span>
         </div>
-        <input
-          type="text"
-          placeholder="Type here"
-          class="input input-bordered w-full"
-          list="stores"
-          name="store"
-          v-model="localLaybuyItem.store_id"
-        />
+        <input type="text" placeholder="Type here" class="input input-bordered w-full" list="stores" name="store"
+          :value="storeName" @change="handleStoreInput" />
         <datalist id="stores">
-          <option
-            v-for="(store, key) in retailStores"
-            :key="key"
-            :value="store.store_name"
-          >
+          <option v-for="(store, key) in retailStores" :key="key" :value="store.store_name">
             {{ store.store_name }}
           </option>
         </datalist>
@@ -39,57 +25,38 @@
         <div class="label">
           <span class="label-text">Months (Duration)</span>
         </div>
-        <input
-          type="text"
-          placeholder="Type here"
-          v-model="localLaybuyItem.duration"
-          class="input input-bordered w-full"
-        />
+        <input type="text" placeholder="Type here" v-model="localLaybuyItem.duration"
+          class="input input-bordered w-full" />
       </label>
       <label class="form-control w-full">
         <div class="label">
           <span class="label-text">Receipt </span>
         </div>
-        <input
-          type="file"
-          class="file-input file-input-bordered w-full file-input-teal"
-        />
+        <input type="file" class="file-input file-input-bordered w-full file-input-teal" />
       </label>
       <div class="flex gap-2">
         <label class="form-control w-full">
           <div class="label">
             <span class="label-text">Prize</span>
           </div>
-          <input
-            type="number"
-            placeholder="Type here"
-            v-model="localLaybuyItem.prize"
-            class="input input-bordered w-full"
-          />
+          <input type="number" placeholder="Type here" v-model="localLaybuyItem.prize"
+            class="input input-bordered w-full" />
         </label>
         <label class="form-control w-full">
           <div class="label">
             <span class="label-text">Deposit</span>
           </div>
-          <input
-            type="number"
-            placeholder="In Emalangeni"
-            v-model="localLaybuyItem.deposit_amount"
-            class="input input-bordered w-full"
-          />
+          <input type="number" placeholder="In Emalangeni" v-model="localLaybuyItem.deposit_amount"
+            class="input input-bordered w-full" />
         </label>
       </div>
       <div class="flex gap-2">
-        <button
-          @click="actionLayBuyItem('deleteLayBuyItem')"
-          class="w-full p-2 bg-red-600 text-white font-semibold rounded-md"
-        >
+        <button @click="actionLayBuyItem('deleteLayBuyItem')"
+          class="w-full p-2 bg-red-600 text-white font-semibold rounded-md">
           Delete
         </button>
-        <button
-        @click="actionLayBuyItem('editLayBuyItem')"
-          class="w-full p-2 bg-teal-600 text-white font-semibold rounded-md"
-        >
+        <button @click="actionLayBuyItem('editLayBuyItem')"
+          class="w-full p-2 bg-teal-600 text-white font-semibold rounded-md">
           Edit
         </button>
       </div>
@@ -116,13 +83,34 @@ const localLaybuyItem: Ref<LayBuyItem> = ref(
 );
 
 onMounted(() => {
+  console.log(localLaybuyItem.value)
   getStores().then((stores) => {
     retailStores.value = stores;
   });
 });
+const selectStoreName: Ref<string> = ref('');
+const handleStoreInput = (event: any) => {
+  selectStoreName.value = event.target.value
 
-const actionLayBuyItem = (action:"deleteLayBuyItem" | "editLayBuyItem")=>{
-   emits(action)
+}
+
+const storeName = computed(()=>{
+  return retailStores.value?.find((val) => {
+    return val.id === localLaybuyItem.value.store_id
+  })?.store_name
+})
+
+const actionLayBuyItem = (action: "deleteLayBuyItem" | "editLayBuyItem") => {
+  const store = retailStores.value?.find((val) => {
+    return val.store_name === selectStoreName.value
+  })
+  localLaybuyItem.value.store_id = store?.id as string;
+  if (localLaybuyItem.value.store) {
+    localLaybuyItem.value.store.StoreZod = store as Store;
+  }
+
+  localLaybuyItem.value.store = store;
+  emits(action, localLaybuyItem.value)
 }
 
 
